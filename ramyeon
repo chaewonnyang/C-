@@ -9,11 +9,20 @@ void printMenu(const string menu[], const int prices[]) {
     }
 }
 
+int calculateTotal(const int prices[], int quantities[]) {
+    int total = 0;
+    for (int i = 0; i < 5; ++i) {
+        total += prices[i] * quantities[i];
+    }
+    return total;
+}
+
 int main() {
     string menu[] = { "일반 라면", "김치 라면", "치즈 라면", "떡 라면", "떡 만두 라면" };
     int prices[] = { 3500, 4000, 4200, 4300, 4500 };
+    int quantities[5] = { 0 }; // 각 라면의 구매 갯수 초기화
 
-    int total = 0; // 총 금액
+    int (*totalPtr)(const int[], int[]) = calculateTotal; // 포인터 함수 초기화
 
     do {
         printMenu(menu, prices);
@@ -23,6 +32,7 @@ int main() {
         cin >> choice;
 
         if (choice == 0) {
+            int total = totalPtr(prices, quantities); // 포인터 함수 호출
             cout << "총 구매 금액은 " << total << "원입니다.\n";
             break;
         }
@@ -43,10 +53,9 @@ int main() {
             int quantity;
             cout << "구매하실 라면의 갯수를 입력해주세요: ";
             cin >> quantity;
-            cout << menu[choice - 1] << quantity << "개를 구매하셨습니다.\n";
+            quantities[choice - 1] += quantity; // 해당 라면의 갯수 누적
 
-            total += prices[choice - 1] * quantity;
-            cout << "가격은 " << prices[choice - 1] * quantity << "원입니다.\n";
+            cout << menu[choice - 1] << " " << quantity << "개를 구매하셨습니다.\n";
         }
     } while (true);
 
