@@ -56,6 +56,7 @@ int main() {
             quantities[choice - 1] += quantity; // 해당 라면의 갯수 누적
 
             cout << menu[choice - 1] << " " << quantity << "개를 구매하셨습니다.\n";
+            cout << "가격은" << prices[choice - 1] * quantity << "입니다.\n";
         }
     } while (true);
 
