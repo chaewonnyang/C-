@@ -1,0 +1,124 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+// 회원 정보를 저장하는 클래스
+class Information {
+private:
+    string name;
+    string phoneNumber;
+public:
+    Information(string n, string p) : name(n), phoneNumber(p) {}
+
+    // Getter 메서드
+    string getName() const {
+        return name;
+    }
+
+    string getPhoneNumber() const {
+        return phoneNumber;
+    }
+
+    // Setter 메서드
+    void setName(string n) {
+        name = n;
+    }
+
+    void setPhoneNumber(string p) {
+        phoneNumber = p;
+    }
+
+    // 이름과 전화번호가 일치하는지 확인하는 메서드
+    bool isMatch(const string& inputName, const string& inputPhoneNumber) const {
+        return (name == inputName && phoneNumber == inputPhoneNumber);
+    }
+};
+
+int main() {
+    vector<Information> users; // 회원 정보를 저장할 벡터
+
+    while (true) {
+        cout << "***** SWING 회원 정보 관리 프로그램 *****" << endl;
+        cout << "1. 회원가입" << endl;
+        cout << "2. 로그인" << endl;
+        cout << "3. 회원 정보 수정" << endl;
+        cout << "4. 종료" << endl;
+        cout << "번호를 선택하세요: ";
+
+        int choice;
+        cin >> choice;
+
+        switch (choice) {
+        case 1: {
+            string name, phoneNumber;
+            cout << "이름을 입력하세요: ";
+            cin >> name;
+            cout << "전화번호를 입력하세요: ";
+            cin >> phoneNumber;
+            users.push_back(Information(name, phoneNumber));
+            cout << "회원가입이 완료되었습니다." << endl;
+            break;
+        }
+        case 2: {
+            string name, phoneNumber;
+            cout << "**** 로그인을 진행합니다 ****" << endl;
+            cout << "이름을 입력하세요: ";
+            cin >> name;
+            cout << "전화번호를 입력하세요: ";
+            cin >> phoneNumber;
+            bool loggedIn = false;
+            for (const auto& user : users) {
+                if (user.isMatch(name, phoneNumber)) {
+                    loggedIn = true;
+                    cout << "로그인이 완료되었습니다." << endl;
+                    cout << "****SWING" << name << "님을 응원합니다*****" << endl;
+                    break;
+                }
+            }
+            if (!loggedIn) {
+                cout << "회원 정보가 일치하지 않습니다." << endl;
+            }
+            break;
+        }
+        case 3: {
+            string currentName, currentPhoneNumber;
+            cout << "**** 회원 정보 수정을 진행합니다 ****" << endl;
+            cout << "현재 이름을 입력하세요: ";
+            cin >> currentName;
+            cout << "현재 전화번호를 입력하세요: ";
+            cin >> currentPhoneNumber;
+            bool found = false;
+            for (auto& user : users) {
+                if (user.isMatch(currentName, currentPhoneNumber)) {
+                    found = true;
+                    string newName, newPhoneNumber;
+                    cout << "새로운 이름을 입력하세요: ";
+                    cin >> newName;
+                    cout << "새로운 전화번호를 입력하세요: ";
+                    cin >> newPhoneNumber;
+                    user.setName(newName);
+                    user.setPhoneNumber(newPhoneNumber);
+                    cout << "회원 정보 수정이 완료되었습니다." << endl;
+
+                    break;
+                }
+            }
+            if (!found) {
+                cout << "일치하는 회원 정보가 없습니다." << endl;
+            }
+            break;
+        }
+        case 4: {
+            cout << "SWING 회원 정보 관리 프로그램을 종료합니다." << endl;
+            return 0;
+        }
+        default:
+            cout << "정확한 번호를 입력해주세요." << endl;
+            break;
+        }
+    }
+
+    return 0;
+}
