@@ -30,9 +30,9 @@ public:
         phoneNumber = p;
     }
 
-    // 이름과 전화번호가 일치하는지 확인하는 메서드
-    bool isMatch(const string& inputName, const string& inputPhoneNumber) const {
-        return (name == inputName && phoneNumber == inputPhoneNumber);
+    // 이름과 전화번호가 일치하는지 확인 (포인터 사용으로 수정)
+    bool isMatch(const string* inputName, const string* inputPhoneNumber) const {
+        return (name == *inputName && phoneNumber == *inputPhoneNumber);
     }
 };
 
@@ -70,10 +70,10 @@ int main() {
             cin >> phoneNumber;
             bool loggedIn = false;
             for (const auto& user : users) {
-                if (user.isMatch(name, phoneNumber)) {
+                if (user.isMatch(&name, &phoneNumber)) {
                     loggedIn = true;
                     cout << "로그인이 완료되었습니다." << endl;
-                    cout << "****SWING" << name << "님을 응원합니다*****" << endl;
+                    cout << "****SWING " << name << "님을 응원합니다*****" << endl;
                     break;
                 }
             }
@@ -91,7 +91,7 @@ int main() {
             cin >> currentPhoneNumber;
             bool found = false;
             for (auto& user : users) {
-                if (user.isMatch(currentName, currentPhoneNumber)) {
+                if (user.isMatch(&currentName, &currentPhoneNumber)) {
                     found = true;
                     string newName, newPhoneNumber;
                     cout << "새로운 이름을 입력하세요: ";
@@ -101,7 +101,6 @@ int main() {
                     user.setName(newName);
                     user.setPhoneNumber(newPhoneNumber);
                     cout << "회원 정보 수정이 완료되었습니다." << endl;
-
                     break;
                 }
             }
